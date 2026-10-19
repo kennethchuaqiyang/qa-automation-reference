@@ -1,0 +1,44 @@
+config:
+  target: "http://localhost:4000"
+  environments:
+    local:
+      target: "http://localhost:4000"
+    uat:
+      target: "" # fill in once a UAT instance exists, or pass --target directly
+    prod:
+      target: "" # fill in once a prod instance exists, or pass --target directly
+  phases:
+    - name: warm-up
+      duration: 10
+      arrivalRate: 2
+    - name: ramp
+      duration: 20
+      arrivalRate: 2
+      rampTo: 10
+    - name: sustained
+      duration: 20
+      arrivalRate: 10
+
+scenarios:
+  - name: "Browse login + booking pages (read-heavy)"
+    weight: 6
+    flow:
+      - get:
+          url: "/login"
+      - get:
+          url: "/booking"
+
+  # Repeated failed logins from many different virtual users — same shape
+  # as a credential-stuffing attempt. The lockout itself is per-session
+  # (one cookie jar per Artillery virtual user here), so this checks the
+  # server stays responsive under sustained failed-login traffic, not
+  # whether lockout kicks in (that's already covered functionally by
+  # TC-007/TC-008 in ../automation/).
+  - name: "Repeated failed logins"
+    weight: 4
+    flow:
+      - post:
+          url: "/login"
+          form:
+            email: "patient_alice@example.com"
+            password: "wrong_{{ $randomNumber(1, 100000) }}"

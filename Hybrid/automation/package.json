@@ -1,0 +1,22 @@
+{
+  "name": "desk-booking-automation",
+  "version": "1.0.0",
+  "description": "Playwright API + UI test suite for the Desk Booking hybrid golden pair",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "cross-env TEST_ENV=local playwright test",
+    "test:local": "cross-env TEST_ENV=local playwright test",
+    "test:uat": "cross-env TEST_ENV=uat playwright test",
+    "test:prod": "cross-env TEST_ENV=prod playwright test",
+    "test:smoke": "cross-env TEST_ENV=local playwright test --grep @smoke",
+    "test:edge": "cross-env TEST_ENV=local playwright test --grep @edge",
+    "test:api": "cross-env TEST_ENV=local playwright test tests/desk-booking-api.spec.ts",
+    "test:ui": "cross-env TEST_ENV=local playwright test tests/desk-booking-ui.spec.ts"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "cross-env": "^7.0.3",
+    "typescript": "^7.0.2"
+  }
+}

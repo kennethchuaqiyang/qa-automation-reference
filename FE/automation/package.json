@@ -1,0 +1,19 @@
+{
+  "name": "login-slot-picker-automation",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "cross-env TEST_ENV=local playwright test",
+    "test:local": "cross-env TEST_ENV=local playwright test",
+    "test:uat": "cross-env TEST_ENV=uat playwright test",
+    "test:prod": "cross-env TEST_ENV=prod playwright test",
+    "test:smoke": "cross-env TEST_ENV=local playwright test --grep @smoke",
+    "test:edge": "cross-env TEST_ENV=local playwright test --grep @edge"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.47.0",
+    "cross-env": "^7.0.3",
+    "typescript": "^5.5.4"
+  }
+}

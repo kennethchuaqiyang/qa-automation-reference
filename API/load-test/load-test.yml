@@ -1,0 +1,47 @@
+config:
+  target: "http://localhost:8080"
+  environments:
+    local:
+      target: "http://localhost:8080"
+    uat:
+      target: "" # fill in once a UAT instance exists, or pass --target directly
+    prod:
+      target: "" # fill in once a prod instance exists, or pass --target directly
+  phases:
+    - name: warm-up
+      duration: 10
+      arrivalRate: 2
+    - name: ramp
+      duration: 20
+      arrivalRate: 2
+      rampTo: 20
+    - name: sustained
+      duration: 30
+      arrivalRate: 20
+  defaults:
+    headers:
+      Content-Type: "application/json"
+
+scenarios:
+  # TC-023 (response time) lives here now — this is the actual load check,
+  # not a single-request timer inside a functional suite.
+  - name: "Browse seats (read-heavy)"
+    weight: 7
+    flow:
+      - get:
+          url: "/api/events/evt_summer_fest/seats"
+      - get:
+          url: "/api/events/evt_summer_fest/seats?status=available"
+
+  # TC-024 (no rate limiting) lives here too — same endpoint, sustained
+  # burst, to see at what point (if any) throttling kicks in. See
+  # ../SECURITY_CHECKS.md for the documented finding from running this.
+  - name: "Repeated hold attempts (rate-limit probe)"
+    weight: 3
+    flow:
+      - post:
+          url: "/api/events/evt_summer_fest/holds"
+          headers:
+            x-customer-id: "cust_load_{{ $randomNumber(1, 100000) }}"
+          json:
+            seatId: "A12"

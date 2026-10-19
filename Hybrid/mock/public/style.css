@@ -1,0 +1,7 @@
+body { font-family: system-ui, sans-serif; margin: 2rem; }
+.desk { padding: 0.5rem 1rem; margin: 0.25rem; border: 1px solid #333; background: #e8f5e9; }
+.desk.taken { background: #eee; color: #999; }
+.desk.selected { outline: 2px solid #1565c0; }
+label { display: block; margin-top: 0.5rem; }
+#empty-state, #no-bookings { color: #666; margin-top: 1rem; }
+.booking-row { margin: 0.5rem 0; }

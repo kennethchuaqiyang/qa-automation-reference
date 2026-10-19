@@ -1,0 +1,14 @@
+{
+  "name": "login-slot-picker-mock",
+  "version": "1.0.0",
+  "description": "Mock frontend for the Login + Appointment Slot Picker golden pair (Ordinary Folk interview prep)",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "cookie-parser": "^1.4.6"
+  }
+}
